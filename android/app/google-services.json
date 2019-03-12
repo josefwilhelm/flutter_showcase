@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "32392470427",
+    "firebase_url": "https://tag-me-2c645.firebaseio.com",
+    "project_id": "tag-me-2c645",
+    "storage_bucket": "tag-me-2c645.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32392470427:android:1cdaef51df2e1b5b",
+        "android_client_info": {
+          "package_name": "com.joetschn.tag.me"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "32392470427-n8h0i7u1dmfct3sqd3qlf7hgem1s44c8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC-4Y5uHkRX4FbPgp-HcfS7ro4YBXeHV30"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
