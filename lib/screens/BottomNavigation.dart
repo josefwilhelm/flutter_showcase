@@ -12,7 +12,7 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
   int _currentIndex = 0;
   final List<Widget> _widgets = [
     Dashboard(),
-    Categories(),
+    Categories(title: "Categories"),
     Profile(),
   ];
 

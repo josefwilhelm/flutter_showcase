@@ -44,7 +44,6 @@ class _DashboardState extends State<Dashboard> {
                   title: "Pick Image from gallery",
                   onPress: _pickImagePressedCamera,
                 ),
-
                 DefaultButton(
                   title: "Pick Image from camera",
                   onPress: _pickImagePressed,
@@ -56,7 +55,12 @@ class _DashboardState extends State<Dashboard> {
                   "Labels:",
                   style: TextStyle(fontSize: 40),
                 ),
-                Container(height: 400, width: double.infinity, child: _labels == null ? Text("No labels yet") : _buildSuggestions())
+                Container(
+                    height: 400,
+                    width: double.infinity,
+                    child: _labels == null
+                        ? Text("No labels yet")
+                        : _buildSuggestions())
               ],
             ),
           ),
@@ -73,7 +77,8 @@ class _DashboardState extends State<Dashboard> {
         final item = _labels[i];
 
         return ListTile(
-          title: Text(item.label), subtitle: Text("confidence: " + item.confidence.toString()),
+          title: Text(item.label),
+          subtitle: Text("confidence: " + item.confidence.toString()),
         );
       },
     );
@@ -97,9 +102,7 @@ class _DashboardState extends State<Dashboard> {
 
   void _labelImage() async {
     var firebaseVisionImage = FirebaseVisionImage.fromFile(_image);
-    final CloudLabelDetector labelDetector = FirebaseVision.instance.cloudLabelDetector(
-        CloudDetectorOptions(maxResults: 30),
-    );
+    final LabelDetector labelDetector = FirebaseVision.instance.labelDetector();
 //
 //    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector();
 //
@@ -108,6 +111,4 @@ class _DashboardState extends State<Dashboard> {
 
     setState(() {});
   }
-
-
 }
