@@ -1,0 +1,12 @@
+{
+  "appTitle": "Tag Me",
+  "@appTitle": {
+    "description": "The tooltip for the button that shows a popup menu."
+  },
+
+
+  "categoriesTitle": "Kategorien",
+  "@apptitle": {
+    "description": "boiii"
+  }
+}

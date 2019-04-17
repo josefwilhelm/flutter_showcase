@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:tag_me/screens/Dashboard.dart';
+import 'package:tag_me/generated/i18n.dart';
 import 'package:tag_me/screens/Categories.dart';
+import 'package:tag_me/screens/Dashboard.dart';
 import 'package:tag_me/screens/Profile.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
@@ -29,7 +30,7 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
           BottomNavigationBarItem(
             backgroundColor: color,
             icon: Icon(FontAwesomeIcons.home),
-            title: new Text('Home'),
+            title: new Text(S.of(context).categoriesTitle),
           ),
           BottomNavigationBarItem(
             backgroundColor: color,
@@ -52,24 +53,3 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
     });
   }
 }
-
-// class Test extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       child: Column(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: <Widget>[
-//           Center(child: Text("Test")),
-//           Container(
-//               child: Image.asset(
-//             'assets/test.png',
-//             fit: BoxFit.fill,
-//             height: 200.0,
-//           )),
-//           Center(child: Text("Test")),
-//         ],
-//       ),
-//     );
-//   }
-// }
