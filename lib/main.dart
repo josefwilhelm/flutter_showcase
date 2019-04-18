@@ -18,9 +18,9 @@ class MyAppState extends State<MyApp> {
       onGenerateTitle: (BuildContext context) => S.of(context).appTitle,
       routes: {"/start": (context) => BottomNavigationWidget()},
       theme: new ThemeData(
-        brightness: Brightness.dark,
-        primarySwatch: Colors.green,
-        accentColor: Colors.teal[800],
+        brightness: Brightness.light,
+        primaryColor: Colors.purple[300],
+        accentColor: Colors.yellow[800],
         primaryTextTheme:
             Theme.of(context).primaryTextTheme.apply(bodyColor: Colors.white),
       ),

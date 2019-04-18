@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tag_me/components/DefaultButton.dart';
 
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-
 class Dashboard extends StatefulWidget {
+  Dashboard({Key key}) : super(key: key);
   @override
   _DashboardState createState() => _DashboardState();
 }
@@ -31,6 +31,11 @@ class _DashboardState extends State<Dashboard> {
       ),
       body: SingleChildScrollView(
         child: Container(
+          decoration: BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.purple[400], Colors.yellow[400]])),
           child: SafeArea(
             child: Column(
               children: <Widget>[
