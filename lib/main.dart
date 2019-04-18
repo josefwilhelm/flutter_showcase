@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:tag_me/generated/i18n.dart';
+import 'package:tag_me/repositories/CategoriesRepository.dart';
 import 'package:tag_me/screens/BottomNavigation.dart';
+import 'package:tag_me/service_locator/ServiceLocator.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  sl.registerSingleton(CategoriesRepository());
+  runApp(MyApp());
+}
 
 class MyApp extends StatefulWidget {
   @override
@@ -19,7 +24,7 @@ class MyAppState extends State<MyApp> {
       routes: {"/start": (context) => BottomNavigationWidget()},
       theme: new ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.purple[300],
+        primaryColor: Colors.brown[200],
         accentColor: Colors.yellow[800],
         primaryTextTheme:
             Theme.of(context).primaryTextTheme.apply(bodyColor: Colors.white),

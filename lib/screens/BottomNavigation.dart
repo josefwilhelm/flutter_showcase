@@ -33,12 +33,12 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
             BottomNavigationBarItem(
               backgroundColor: color,
               icon: Icon(FontAwesomeIcons.home),
-              title: new Text(S.of(context).categoriesTitle),
+              title: new Text("Home"),
             ),
             BottomNavigationBarItem(
               backgroundColor: color,
               icon: Icon(MyFlutterApp.bear),
-              title: new Text('Categories'),
+              title: new Text(S.of(context).categoriesTitle),
             ),
             BottomNavigationBarItem(
                 backgroundColor: color,
