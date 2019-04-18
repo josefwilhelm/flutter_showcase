@@ -4,24 +4,25 @@
 
 import 'dart:convert';
 
-Insta instaFromJson(String str) {
+HashtagSearchResponse instaFromJson(String str) {
   final jsonData = json.decode(str);
-  return Insta.fromJson(jsonData);
+  return HashtagSearchResponse.fromJson(jsonData);
 }
 
-String instaToJson(Insta data) {
+String instaToJson(HashtagSearchResponse data) {
   final dyn = data.toJson();
   return json.encode(dyn);
 }
 
-class Insta {
+class HashtagSearchResponse {
   List<HashtagElement> hashtags;
 
-  Insta({
+  HashtagSearchResponse({
     this.hashtags,
   });
 
-  factory Insta.fromJson(Map<String, dynamic> json) => new Insta(
+  factory HashtagSearchResponse.fromJson(Map<String, dynamic> json) =>
+      new HashtagSearchResponse(
         hashtags: new List<HashtagElement>.from(
             json["hashtags"].map((x) => HashtagElement.fromJson(x))),
       );

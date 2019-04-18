@@ -15,7 +15,7 @@ class HashtagSearch extends StatefulWidget {
 class _HashtagSearchState extends State<HashtagSearch> {
   String _searchTerm;
   String _location;
-  Insta insta;
+  HashtagSearchResponse insta;
   Predictions predictions;
   String apikey = "AIzaSyC-4Y5uHkRX4FbPgp-HcfS7ro4YBXeHV30";
   var googleUrl =
@@ -70,7 +70,7 @@ class _HashtagSearchState extends State<HashtagSearch> {
 
     if (response.statusCode == 200) {
       var jsonResponse = convert.jsonDecode(response.body);
-      insta = Insta.fromJson(jsonResponse);
+      insta = HashtagSearchResponse.fromJson(jsonResponse);
       var items = insta.hashtags.length;
 
       setState(() {});
