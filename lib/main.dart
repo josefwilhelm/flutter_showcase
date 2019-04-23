@@ -26,7 +26,7 @@ class MyAppState extends State<MyApp> {
       routes: {"/start": (context) => BottomNavigationWidget()},
       theme: new ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.brown[200],
+        primaryColor: Colors.teal[300],
         accentColor: Colors.brown[400],
         primaryTextTheme:
             Theme.of(context).primaryTextTheme.apply(bodyColor: Colors.white),

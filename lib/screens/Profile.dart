@@ -10,15 +10,14 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Second Screen"),
+        body: Center(
+      child: Text(
+        "Coming soon...",
+        style: Theme.of(context)
+            .textTheme
+            .title
+            .apply(color: Theme.of(context).primaryColor),
       ),
-      body: ListView.builder(itemBuilder: (context, index) {
-        return ListTile(
-          title: Text('Lorem Ipsum'),
-          subtitle: Text('$index'),
-        );
-      }),
-    );
+    ));
   }
 }

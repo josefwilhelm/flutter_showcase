@@ -26,16 +26,16 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Dashboard"),
-      ),
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
               gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Colors.purple[400], Colors.yellow[400]])),
+                  colors: [
+                Theme.of(context).primaryColor,
+                Colors.white,
+              ])),
           child: SafeArea(
             child: Column(
               children: <Widget>[
