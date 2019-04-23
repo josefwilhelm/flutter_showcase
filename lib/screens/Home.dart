@@ -1,9 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tag_me/components/CategoryDetailCard.dart';
+import 'package:tag_me/bloc/BlocProvider.dart';
+import 'package:tag_me/bloc/HashtagBloc.dart';
+import 'package:tag_me/components/HashtagChip.dart';
+import 'package:tag_me/models/HashtagItem.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -13,9 +17,13 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   File _image;
+  List<Label> _labels;
+  HashtagBloc _hashtagBloc;
 
   @override
   Widget build(BuildContext context) {
+    _hashtagBloc = BlocProvider.of(context);
+
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
@@ -27,7 +35,21 @@ class _HomeState extends State<Home> {
               ? Container()
               : Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: CategoryDetailCard(title: "travel"),
+                  child: StreamBuilder(
+                      stream: _hashtagBloc.outPictureHashtag,
+                      builder:
+                          (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                              child:
+                                  _buildChips(snapshot.data, 1, _hashtagBloc));
+                        } else {
+                          return Container(
+                              height: 100.0,
+                              child:
+                                  Center(child: CircularProgressIndicator()));
+                        }
+                      }),
                 ),
         ],
       ),
@@ -49,7 +71,21 @@ class _HomeState extends State<Home> {
 
     setState(() {});
 
-//    _labelImage();
+    _labelImage();
+  }
+
+  Future _labelImage() async {
+    var firebaseVisionImage = FirebaseVisionImage.fromFile(_image);
+    final LabelDetector labelDetector = FirebaseVision.instance.labelDetector();
+//
+//    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector();
+//
+//    final List<Face> faces = await faceDetector.processImage(firebaseVisionImage);
+    _labels =
+        await labelDetector.detectInImage(firebaseVisionImage).then((labels) {
+      _hashtagBloc.getHashtagsforPictureLabel(labels[0].label);
+      setState(() {});
+    });
   }
 
   Widget _buildHashtagHeader(BuildContext context) {
@@ -107,5 +143,17 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
+  }
+
+  Widget _buildChips(
+      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
+    List<Widget> _hashtagChips = List();
+
+    hashtags.forEach((hashtag) {
+      _hashtagChips.add(HashtagChip(hashtag, hashtagBloc));
+    });
+
+    return Wrap(
+        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
   }
 }

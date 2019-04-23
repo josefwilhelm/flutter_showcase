@@ -7,6 +7,8 @@ class HashtagRepository {
   static const String INSTAGRAM_SEARCH_URL =
       'https://www.instagram.com/web/search/topsearch/?&query=%23';
 
+  Map _selectedHashtags = Map();
+
   Future<HashtagSearchResponse> getHashtagsFor(String searchTerm) async {
     final response = await http.get('$INSTAGRAM_SEARCH_URL$searchTerm');
 

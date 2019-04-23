@@ -1,7 +1,11 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tag_me/bloc/BlocProvider.dart';
+import 'package:tag_me/bloc/HashtagBloc.dart';
+import 'package:tag_me/components/HashtagChip.dart';
 import 'package:tag_me/generated/i18n.dart';
+import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tag_me/my_flutter_app_icons.dart';
 import 'package:tag_me/screens/Categories.dart';
 import 'package:tag_me/screens/Home.dart';
@@ -19,6 +23,8 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
     Categories(key: PageStorageKey("Categories")),
     Profile(key: PageStorageKey("Profile")),
   ];
+
+  HashtagBloc _hashtagBloc;
 
   VoidCallback _bottomSheetCallback;
 //
@@ -42,6 +48,7 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
 
   @override
   Widget build(BuildContext context) {
+    _hashtagBloc = BlocProvider.of(context);
     final color = Theme.of(context).primaryColor;
 
     return Scaffold(
@@ -50,15 +57,35 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
           actions: <Widget>[
             Hero(
               tag: "hashtag",
-              child: InkWell(
-                onTap: buildBottomSheet,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    FontAwesomeIcons.hashtag,
-                    color: Colors.white,
+              child: Row(
+                children: <Widget>[
+                  StreamBuilder(
+                      stream: _hashtagBloc.outTotalFavorites,
+                      builder: (context, AsyncSnapshot<int> snapshot) {
+                        if (snapshot.hasData) {
+                          return Container(
+                              child: Text(
+                            snapshot.data.toString(),
+                            style: Theme.of(context)
+                                .textTheme
+                                .display1
+                                .apply(color: Colors.white),
+                          ));
+                        } else {
+                          return Container();
+                        }
+                      }),
+                  InkWell(
+                    onTap: buildBottomSheet,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        FontAwesomeIcons.hashtag,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
-                ),
+                ],
               ),
             )
           ],
@@ -121,13 +148,27 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
                           .title
                           .apply(color: Theme.of(context).primaryColor),
                     ),
-                  )
+                  ),
                 ],
               ),
               new Text(
                 'Here will be your hashtags ',
                 textAlign: TextAlign.left,
               ),
+              SizedBox(height: 8.0),
+              StreamBuilder(
+                  stream: _hashtagBloc.outSelected,
+                  builder:
+                      (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
+                    if (snapshot.hasData) {
+                      return Container(
+                          child: _buildChips(snapshot.data, 1, _hashtagBloc));
+                    } else {
+                      return Container(
+                          height: 100.0,
+                          child: Center(child: Text("No hashtags selected")));
+                    }
+                  })
             ],
           ));
         });
@@ -140,5 +181,17 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
 //            });
 //          }
 //        });
+  }
+
+  Widget _buildChips(
+      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
+    List<Widget> _hashtagChips = List();
+
+    hashtags.forEach((hashtag) {
+      _hashtagChips.add(HashtagChip(hashtag, hashtagBloc));
+    });
+
+    return Wrap(
+        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
   }
 }

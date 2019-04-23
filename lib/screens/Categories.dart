@@ -57,7 +57,7 @@ class _CategoriesState extends State<Categories> {
     Navigator.push(
         context,
         PageRouteBuilder(
-            transitionDuration: Duration(seconds: 1),
+            transitionDuration: Duration(milliseconds: 300),
             pageBuilder: (_, __, ___) => CategoryDetail(title, icon)));
 
 //    Navigator.push(

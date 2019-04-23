@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:tag_me/bloc/BlocProvider.dart';
+import 'package:tag_me/bloc/HashtagBloc.dart';
 import 'package:tag_me/generated/i18n.dart';
 import 'package:tag_me/repositories/CategoriesRepository.dart';
 import 'package:tag_me/repositories/HashtagRepository.dart';
@@ -9,7 +11,11 @@ import 'package:tag_me/service_locator/ServiceLocator.dart';
 void main() {
   sl.registerSingleton(CategoriesRepository());
   sl.registerSingleton(HashtagRepository());
-  runApp(MyApp());
+
+  runApp(BlocProvider(
+    bloc: HashtagBloc(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatefulWidget {
