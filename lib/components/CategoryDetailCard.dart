@@ -35,25 +35,10 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
                   SizedBox(
                     height: 8.0,
                   ),
-                  Text(
-                    "${widget.title}#1",
-                    style: Theme.of(context).textTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
                   Card(child: _buildChips(snapshot.data.hashtags, 1)),
                   SizedBox(
                     height: 12.0,
                   ),
-                  Text(
-                    "${widget.title}#2",
-                    style: Theme.of(context).textTheme.headline,
-                  ),
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Card(child: _buildChips(snapshot.data.hashtags, 2)),
                 ],
               ),
             );
@@ -79,28 +64,6 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
           }
         });
   }
-
-//  @override
-//  Widget build(BuildContext context) {
-//    return Wrap(
-//      spacing: 8.0,
-//      runSpacing: 8.0,
-//      children: <Widget>[
-//        HashtagChip("sjlkjlk"),
-//        HashtagChip("sdf sdf dsf "),
-//        HashtagChip("32   3 345"),
-//        HashtagChip("sdfsdf s df dsf df "),
-//        HashtagChip("dsf"),
-//        HashtagChip("sjlkjlk"),
-//        HashtagChip("sdf sdf dsf "),
-//        HashtagChip("32   3 345"),
-//        HashtagChip(" sf df"),
-//        HashtagChip("sjlkjlk"),
-//        HashtagChip("sdf sdf dsf "),
-//        HashtagChip("32   3 345"),
-//      ],
-//    );
-//  }
 
   Widget _buildChips(List<HashtagElement> hashtags, int i) {
     List<Widget> _hashtagChips = List();
@@ -129,11 +92,11 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
         "$name",
         style: TextStyle(
             fontSize: 11.0,
-            color: _selected.containsKey(name) ? Colors.white : Colors.brown),
+            color: _selected.containsKey(name) == true
+                ? Colors.white
+                : Theme.of(context).primaryColor),
       ),
-      selectedColor: Colors.brown[300],
-      disabledColor: Colors.green,
-      backgroundColor: Colors.brown[100],
+      selectedColor: Theme.of(context).primaryColor,
       selected: _selected[name],
       onSelected: (bool selected) {
         setState(() {

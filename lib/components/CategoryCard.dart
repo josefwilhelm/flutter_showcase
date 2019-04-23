@@ -23,7 +23,7 @@ class CategoryCard extends StatelessWidget {
             children: <Widget>[
               Icon(
                 icon,
-                color: Colors.brown[200],
+                color: Theme.of(context).primaryColor,
               ),
               SizedBox(height: 16),
               AutoSizeText(
