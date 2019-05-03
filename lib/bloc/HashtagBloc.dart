@@ -1,5 +1,5 @@
 import 'package:rxdart/rxdart.dart';
-import 'package:tag_me/bloc/bloc.dart';
+import 'package:tag_me/bloc/Bloc.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tag_me/repositories/CategoriesRepository.dart';
 import 'package:tag_me/repositories/HashtagRepository.dart';

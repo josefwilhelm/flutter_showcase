@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'bloc.dart';
+import 'Bloc.dart';
 
 typedef UpdateShouldNotify<T> = bool Function(T bloc, _BlocProvider oldWidget);
 
