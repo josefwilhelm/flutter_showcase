@@ -33,7 +33,7 @@ android {
 
     defaultConfig {
         applicationId "com.joetschn.tag.me"
-        minSdkVersion 16
+        minSdkVersion 19
         targetSdkVersion 28
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -47,6 +47,11 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+    }
+
+    aaptOptions {
+        noCompress 'tflite'
+        noCompress 'lite'
     }
 }
 

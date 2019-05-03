@@ -8,6 +8,7 @@ import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
 import 'package:tag_me/components/HashtagChip.dart';
 import 'package:tag_me/models/HashtagItem.dart';
+import 'package:tflite/tflite.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
@@ -19,6 +20,12 @@ class _HomeState extends State<Home> {
   File _image;
   List<Label> _labels;
   HashtagBloc _hashtagBloc;
+
+
+  @override
+  void initState() {
+    _iniatiliseTFModel();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,9 +76,11 @@ class _HomeState extends State<Home> {
 
     _image = image;
 
-    setState(() {});
+    _label();
 
-    _labelImage();
+//    setState(() {});
+//
+//    _labelImage();
   }
 
   Future _labelImage() async {
@@ -112,6 +121,21 @@ class _HomeState extends State<Home> {
         )
       ],
     );
+  }
+
+  Future _iniatiliseTFModel() async {
+    String res = await Tflite.loadModel(
+        model: "assets/mobilenet_v1_1.0_224.tflite",
+        labels: "assets/mobilenet_v1_1.0_224.txt",
+        numThreads: 1 // defaults to 1
+    );
+  }
+
+  Future _label() async {
+    var recognitions = await Tflite.detectObjectOnImage(
+        path: _image.path,
+    );
+    print(recognitions);
   }
 
   Widget buildImageCard(BuildContext context) {
