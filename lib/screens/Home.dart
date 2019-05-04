@@ -21,6 +21,7 @@ class _HomeState extends State<Home> {
   List<Label> _labels;
   HashtagBloc _hashtagBloc;
 
+  List<String> _recognitions = List();
 
   @override
   void initState() {
@@ -128,14 +129,40 @@ class _HomeState extends State<Home> {
         model: "assets/mobilenet_v1_1.0_224.tflite",
         labels: "assets/mobilenet_v1_1.0_224.txt",
         numThreads: 1 // defaults to 1
-    );
+        );
   }
 
   Future _label() async {
-    var recognitions = await Tflite.detectObjectOnImage(
-        path: _image.path,
+    var recognitions = await Tflite.runModelOnImage(
+      path: _image.path,
+      numResults: 6,
+      threshold: 0.05,
+      imageMean: 127.5,
+      imageStd: 127.5,
     );
+
     print(recognitions);
+
+    recognitions.forEach((re) {
+      _recognitions.add(re["label"]);
+    });
+
+    setState(() {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          // return object of type Dialog
+          return AlertDialog(
+            title: new Text("Alert Dialog title"),
+            content: ListView.builder(
+                itemCount: _recognitions.length,
+                itemBuilder: (BuildContext ctxt, int index) {
+                  return new Text(_recognitions[index]);
+                }),
+          );
+        },
+      );
+    });
   }
 
   Widget buildImageCard(BuildContext context) {
