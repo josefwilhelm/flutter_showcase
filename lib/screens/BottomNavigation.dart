@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
 import 'package:tag_me/components/HashtagChip.dart';
+import 'package:tag_me/components/RoundActionButton.dart';
 import 'package:tag_me/generated/i18n.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tag_me/my_flutter_app_icons.dart';
@@ -168,7 +169,18 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
                           height: 100.0,
                           child: Center(child: Text("No hashtags selected")));
                     }
-                  })
+                  }),
+              Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    RoundActionButton(icon: Icon(FontAwesomeIcons.copy)),
+                    RoundActionButton(icon: Icon(FontAwesomeIcons.share)),
+                    RoundActionButton(icon: Icon(FontAwesomeIcons.heart)),
+                  ],
+                ),
+              ),
             ],
           ));
         });
@@ -181,6 +193,10 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
 //            });
 //          }
 //        });
+  }
+
+  _tapped() {
+    print("josdfjkljskldf");
   }
 
   Widget _buildChips(
