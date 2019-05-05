@@ -32,12 +32,12 @@ class MyAppState extends State<MyApp> {
       routes: {"/start": (context) => BottomNavigationWidget()},
       theme: new ThemeData(
         brightness: Brightness.light,
-        primaryColor: Colors.grey[800],
+        primaryColor: Colors.pink[200],
         accentColor: Colors.brown[400],
         primaryTextTheme:
             Theme.of(context).primaryTextTheme.apply(bodyColor: Colors.white),
       ),
-      home: BottomNavigationWidget(),
+      home: Scaffold(body: BottomNavigationWidget()),
       localizationsDelegates: [
         // https://github.com/long1eu/flutter_i18n
         S.delegate,

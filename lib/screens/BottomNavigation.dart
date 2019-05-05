@@ -1,8 +1,10 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
+import 'package:tag_me/components/HashtagBottomSheet.dart';
 import 'package:tag_me/components/HashtagChip.dart';
 import 'package:tag_me/components/RoundActionButton.dart';
 import 'package:tag_me/generated/i18n.dart';
@@ -27,30 +29,11 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
 
   HashtagBloc _hashtagBloc;
 
-  VoidCallback _bottomSheetCallback;
-//
-//  @override
-//  void initState() {
-//    super.initState();
-//    _bottomSheetCallback = _showBottomSheet;
-//  }
-//
-//  void _showBottomSheet() {
-//    setState(() {
-//      _bottomSheetCallback = null;
-//    });
-//
-//    buildBottomSheet();
-//  }
-
   final PageStorageBucket bucket = PageStorageBucket();
-
-  PersistentBottomSheetController<Null> _bottomSheet;
 
   @override
   Widget build(BuildContext context) {
     _hashtagBloc = BlocProvider.of(context);
-    final color = Theme.of(context).primaryColor;
 
     return Scaffold(
         key: scaffoldKey,
@@ -76,16 +59,17 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
                           return Container();
                         }
                       }),
-                  InkWell(
-                    onTap: buildBottomSheet,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Icon(
-                        FontAwesomeIcons.hashtag,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
+                         InkWell(
+                          onTap: () => _showBottomsheet(),
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(
+                              FontAwesomeIcons.hashtag,
+                              color: Colors.white,
+                            ),
+                          ),
+                        )
+
                 ],
               ),
             )
@@ -118,96 +102,21 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
         ));
   }
 
-  void buildBottomSheet() {
-    showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return new Container(
-              child: new Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Hero(
-                    tag: "hashtag",
-                    child: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Icon(
-                        FontAwesomeIcons.hashtag,
-                        color: Theme.of(context).primaryColor,
-                        size: 48.0,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.all(12.0),
-                    child: Text(
-                      "Hashtags",
-                      style: Theme.of(context)
-                          .textTheme
-                          .title
-                          .apply(color: Theme.of(context).primaryColor),
-                    ),
-                  ),
-                ],
-              ),
-              new Text(
-                'Here will be your hashtags ',
-                textAlign: TextAlign.left,
-              ),
-              SizedBox(height: 8.0),
-              StreamBuilder(
-                  stream: _hashtagBloc.outSelected,
-                  builder:
-                      (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
-                    if (snapshot.hasData) {
-                      return Container(
-                          child: _buildChips(snapshot.data, 1, _hashtagBloc));
-                    } else {
-                      return Container(
-                          height: 100.0,
-                          child: Center(child: Text("No hashtags selected")));
-                    }
-                  }),
-              Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    RoundActionButton(icon: Icon(FontAwesomeIcons.copy)),
-                    RoundActionButton(icon: Icon(FontAwesomeIcons.share)),
-                    RoundActionButton(icon: Icon(FontAwesomeIcons.heart)),
-                  ],
-                ),
-              ),
-            ],
-          ));
-        });
-
-//        .closed
-//        .whenComplete(() {
-//          if (mounted) {
-//            setState(() {
-//              _bottomSheetCallback = _showBottomSheet;
-//            });
-//          }
-//        });
+  _showBottomsheet() {
+    showModalBottomSheet(context: context,
+        builder: (BuildContext context){
+          return HashtagBottomSheet(context); // returns your BottomSheet widget
+        }
+    );
   }
 
-  _tapped() {
-    print("josdfjkljskldf");
-  }
+  _copyToClipboard(BuildContext context) {
+    
+    Clipboard.setData(new ClipboardData(text: "Test if copy works"));
 
-  Widget _buildChips(
-      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
-    List<Widget> _hashtagChips = List();
-
-    hashtags.forEach((hashtag) {
-      _hashtagChips.add(HashtagChip(hashtag, hashtagBloc));
-    });
-
-    return Wrap(
-        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
+//    Scaffold.of(context).showSnackBar(SnackBar(
+//      content: Text('Hashtags successfully copied :)'),
+//      duration: Duration(seconds: 3),
+//    ));
   }
 }

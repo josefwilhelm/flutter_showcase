@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
+import 'package:tag_me/components/CustomErrorWidget.dart';
+import 'package:tag_me/components/CustomLoadingWidget.dart';
 import 'package:tag_me/components/HashtagChip.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 
@@ -18,72 +20,21 @@ class CategoryDetailCard extends StatefulWidget {
 }
 
 class _CategoryDetailCardState extends State<CategoryDetailCard> {
-//  Map _selected = Map();
+  HashtagBloc _hashtagBloc;
 
   @override
   Widget build(BuildContext context) {
-    HashtagBloc _hashtagBloc = BlocProvider.of(context);
+    _hashtagBloc = BlocProvider.of(context);
     _hashtagBloc.getHashtagsForCategory(widget.title);
     return StreamBuilder(
         stream: _hashtagBloc.outHashtagCategories,
         builder: (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
           if (snapshot.hasData) {
-            return SingleChildScrollView(
-              child: Column(
-                children: <Widget>[
-                  SizedBox(
-                    height: 8.0,
-                  ),
-                  Hero(
-                    tag: widget.title,
-                    child: Stack(
-                      alignment: Alignment.center,
-                      fit: StackFit.loose,
-                      children: <Widget>[
-                        Card(
-                            child: _buildChips(snapshot.data, 1, _hashtagBloc)),
-                        IgnorePointer(
-                          child: Center(
-                            child: Opacity(
-                              opacity: 0.08,
-                              child: Icon(
-                                widget.iconData,
-                                size: 120.0,
-                                color: Colors.teal,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(
-                    height: 12.0,
-                  ),
-                ],
-              ),
-            );
+            return _buildCard(snapshot.data);
           } else if (snapshot.hasError) {
-            Center(child: Text(snapshot.error));
+            return new CustomErrorWidget(text: snapshot.error);
           } else {
-            return Container(
-              child: Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    SizedBox(
-                      height: 12.0,
-                    ),
-                    Text(
-                      "Loading",
-                      style: Theme.of(context).textTheme.title,
-                    )
-                  ],
-                ),
-              ),
-            );
+            return CustomLoadingWidget();
           }
         });
   }
@@ -103,4 +54,43 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
     return Wrap(
         spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
   }
+
+  Widget _buildCard(List<HashtagItem> data) {
+    return SingleChildScrollView(
+      child: Column(
+        children: <Widget>[
+          SizedBox(
+            height: 8.0,
+          ),
+          Hero(
+            tag: widget.title,
+            child: Stack(
+              alignment: Alignment.center,
+              fit: StackFit.loose,
+              children: <Widget>[
+                Card(
+                    child: _buildChips(data, 1, _hashtagBloc)),
+                IgnorePointer(
+                  child: Center(
+                    child: Opacity(
+                      opacity: 0.08,
+                      child: Icon(
+                        widget.iconData,
+                        size: 120.0,
+                        color: Colors.teal,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 12.0,
+          ),
+        ],
+      ),
+    );
+  }
 }
+

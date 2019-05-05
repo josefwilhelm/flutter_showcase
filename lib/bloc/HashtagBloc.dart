@@ -77,13 +77,15 @@ class HashtagBloc extends Bloc {
   getHashtagsForCategory(String category) {
     currentCategory = category.toLowerCase();
 
-    if (_hashtagsfromCategories == null ||
+    if (_hashtagsfromCategories == null || _hashtagsfromCategories[currentCategory] == null ||
         _hashtagsfromCategories[currentCategory].isEmpty) {
-      _hashtagCategoriesController.add(null);
+//      _hashtagCategoriesController.addError("No internet connection!");
+//      return;
+    } else {
+      _hashtagCategoriesController
+          .add(_hashtagsfromCategories[currentCategory].values.toList());
     }
 
-    _hashtagCategoriesController
-        .add(_hashtagsfromCategories[currentCategory].values.toList());
   }
 
   getHashtagsforPictureLabel(String label) {
@@ -101,7 +103,9 @@ class HashtagBloc extends Bloc {
   _getHashtags() {
     _categories.forEach((category) async {
       await _hashtagRepository
-          .getHashtagsFor(category)
+          .getHashtagsFor(category).catchError((error) {
+            print(error);
+      })
           .asStream()
           .listen((data) {
         var _temp = Map<String, HashtagItem>();
@@ -112,6 +116,8 @@ class HashtagBloc extends Bloc {
           ));
         });
         _handelInitCategories(category, _temp);
+      }).onError((error) {
+        print(error);
       });
     });
   }
