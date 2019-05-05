@@ -25,7 +25,7 @@ class _HomeState extends State<Home> {
 
   @override
   void initState() {
-    _iniatiliseTFModel();
+//    _iniatiliseTFModel();
   }
 
   @override
