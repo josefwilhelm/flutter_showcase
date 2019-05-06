@@ -28,10 +28,7 @@ class _CategoriesState extends State<Categories> {
             Colors.white,
           ])),
       child: GridView.count(
-        // Create a grid with 2 columns. If you change the scrollDirection to
-        // horizontal, this would produce 2 rows.
         crossAxisCount: 3,
-        // Generate 100 Widgets that display their index in the List
         children: List.generate(_categories.length, (index) {
           var _title = _categories[index].key.toUpperCase();
           var _icon = _categories[index].value;
@@ -59,11 +56,5 @@ class _CategoriesState extends State<Categories> {
         PageRouteBuilder(
             transitionDuration: Duration(milliseconds: 300),
             pageBuilder: (_, __, ___) => CategoryDetail(title, icon)));
-
-//    Navigator.push(
-//        context,
-//        ScaleTransitionRoute(
-//          widget: CategoryDetail(title, icon),
-//        ));
   }
 }

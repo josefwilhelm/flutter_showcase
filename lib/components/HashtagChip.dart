@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 
 class HashtagChip extends StatelessWidget {
   final HashtagItem _hashtagItem;
-  final HashtagBloc _hashtagBloc;
-
-  HashtagChip(this._hashtagItem, this._hashtagBloc);
+  HashtagChip(this._hashtagItem);
 
   @override
   Widget build(BuildContext context) {
+    HashtagBloc _hashtagBloc = BlocProvider.of(context);
     var name = _hashtagItem.name;
     int posts = _hashtagItem.posts ~/ 1000;
 

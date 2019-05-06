@@ -39,21 +39,21 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
         });
   }
 
-  Widget _buildChips(
-      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
-    List<Widget> _hashtagChips = List();
-
-//    hashtags.shuffle();
-
-    var temp = i == 1 ? hashtags.sublist(0, 30) : hashtags.sublist(31, 60);
-
-    temp.forEach((hashtag) {
-      _hashtagChips.add(HashtagChip(hashtag, hashtagBloc));
-    });
-
-    return Wrap(
-        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
-  }
+//  Widget _buildChips(
+//      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
+//    List<Widget> _hashtagChips = List();
+//
+////    hashtags.shuffle();
+//
+//    var temp = i == 1 ? hashtags.sublist(0, 30) : hashtags.sublist(31, 60);
+//
+//    temp.forEach((hashtag) {
+//      _hashtagChips.add(HashtagChip(hashtag));
+//    });
+//
+//    return Wrap(
+//        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
+//  }
 
   Widget _buildCard(List<HashtagItem> data) {
     return SingleChildScrollView(
@@ -68,8 +68,7 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
               alignment: Alignment.center,
               fit: StackFit.loose,
               children: <Widget>[
-                Card(
-                    child: _buildChips(data, 1, _hashtagBloc)),
+                Card(child: HashtagChipCard(data)),
                 IgnorePointer(
                   child: Center(
                     child: Opacity(
@@ -94,3 +93,18 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
   }
 }
 
+class HashtagChipCard extends StatelessWidget {
+  HashtagChipCard(this.hashtags);
+
+  final List<HashtagItem> hashtags;
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Wrap(
+          spacing: 4.0,
+          alignment: WrapAlignment.center,
+          children: hashtags.map((hashtag) => HashtagChip(hashtag)).toList()),
+    );
+  }
+}

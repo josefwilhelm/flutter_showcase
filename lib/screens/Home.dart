@@ -201,7 +201,7 @@ class _HomeState extends State<Home> {
     List<Widget> _hashtagChips = List();
 
     hashtags.forEach((hashtag) {
-      _hashtagChips.add(HashtagChip(hashtag, hashtagBloc));
+      _hashtagChips.add(HashtagChip(hashtag));
     });
 
     return Wrap(

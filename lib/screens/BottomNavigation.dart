@@ -1,35 +1,34 @@
 import 'package:fancy_bottom_navigation/fancy_bottom_navigation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
 import 'package:tag_me/components/HashtagBottomSheet.dart';
-import 'package:tag_me/components/HashtagChip.dart';
-import 'package:tag_me/components/RoundActionButton.dart';
 import 'package:tag_me/generated/i18n.dart';
-import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tag_me/my_flutter_app_icons.dart';
 import 'package:tag_me/screens/Categories.dart';
 import 'package:tag_me/screens/Home.dart';
 import 'package:tag_me/screens/Profile.dart';
+import 'package:tag_me/screens/Favourites.dart';
 import 'package:tag_me/service_locator/ServiceLocator.dart';
 
 class BottomNavigationWidget extends StatefulWidget {
-  _BottomNavigaitonWidgetState createState() => _BottomNavigaitonWidgetState();
+  _BottomNavigationWidgetState createState() => _BottomNavigationWidgetState();
 }
 
-class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
+class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
   int _currentIndex = 1;
+
   final List<Widget> _widgets = [
     Home(key: PageStorageKey("Dashboard")),
     Categories(key: PageStorageKey("Categories")),
+    Favourites(key: PageStorageKey("Starred")),
     Profile(key: PageStorageKey("Profile")),
   ];
 
   HashtagBloc _hashtagBloc;
 
-  final PageStorageBucket bucket = PageStorageBucket();
+  final PageStorageBucket _bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
@@ -59,17 +58,16 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
                           return Container();
                         }
                       }),
-                         InkWell(
-                          onTap: () => _showBottomsheet(),
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Icon(
-                              FontAwesomeIcons.hashtag,
-                              color: Colors.white,
-                            ),
-                          ),
-                        )
-
+                  InkWell(
+                    onTap: () => _showBottomsheet(),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Icon(
+                        FontAwesomeIcons.hashtag,
+                        color: Colors.white,
+                      ),
+                    ),
+                  )
                 ],
               ),
             )
@@ -79,12 +77,16 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
           initialSelection: _currentIndex,
           tabs: [
             TabData(
-              iconData: MyFlutterApp.heart,
+              iconData: MyFlutterApp.camera_20,
               title: "Home",
             ),
             TabData(
                 iconData: MyFlutterApp.bear,
                 title: S.of(context).categoriesTitle),
+            TabData(
+              iconData: MyFlutterApp.heart,
+              title: "Favourite",
+            ),
             TabData(
               iconData: MyFlutterApp.skull_2,
               title: "Profile",
@@ -97,26 +99,16 @@ class _BottomNavigaitonWidgetState extends State<BottomNavigationWidget> {
           },
         ),
         body: PageStorage(
-          bucket: bucket,
+          bucket: _bucket,
           child: _widgets[_currentIndex],
         ));
   }
 
   _showBottomsheet() {
-    showModalBottomSheet(context: context,
-        builder: (BuildContext context){
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext context) {
           return HashtagBottomSheet(context); // returns your BottomSheet widget
-        }
-    );
-  }
-
-  _copyToClipboard(BuildContext context) {
-    
-    Clipboard.setData(new ClipboardData(text: "Test if copy works"));
-
-//    Scaffold.of(context).showSnackBar(SnackBar(
-//      content: Text('Hashtags successfully copied :)'),
-//      duration: Duration(seconds: 3),
-//    ));
+        });
   }
 }
