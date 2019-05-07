@@ -108,7 +108,7 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
     showModalBottomSheet(
         context: context,
         builder: (BuildContext context) {
-          return HashtagBottomSheet(context); // returns your BottomSheet widget
+          return HashtagBottomSheet(); // returns your BottomSheet widget
         });
   }
 }

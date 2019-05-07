@@ -103,7 +103,7 @@ class _CategoryDetailState extends State<CategoryDetail> {
   void buildBottomSheet() {
       showModalBottomSheet(context: context,
           builder: (BuildContext context){
-            return HashtagBottomSheet(context); // returns your BottomSheet widget
+            return HashtagBottomSheet(); // returns your BottomSheet widget
           }
       );
   }

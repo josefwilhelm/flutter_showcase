@@ -20,6 +20,8 @@ class HashtagBloc extends Bloc {
 
   Map<String, Map<String, HashtagItem>> _hashtagsfromCategories = Map();
 
+  Map<String, HashtagItem> get selectedHashtags => _selectedHashtags;
+
   String currentCategory = "";
 
   ///

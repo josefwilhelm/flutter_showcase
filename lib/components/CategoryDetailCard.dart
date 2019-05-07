@@ -39,22 +39,6 @@ class _CategoryDetailCardState extends State<CategoryDetailCard> {
         });
   }
 
-//  Widget _buildChips(
-//      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
-//    List<Widget> _hashtagChips = List();
-//
-////    hashtags.shuffle();
-//
-//    var temp = i == 1 ? hashtags.sublist(0, 30) : hashtags.sublist(31, 60);
-//
-//    temp.forEach((hashtag) {
-//      _hashtagChips.add(HashtagChip(hashtag));
-//    });
-//
-//    return Wrap(
-//        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
-//  }
-
   Widget _buildCard(List<HashtagItem> data) {
     return SingleChildScrollView(
       child: Column(

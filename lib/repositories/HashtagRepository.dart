@@ -2,8 +2,11 @@ import 'dart:convert' as convert;
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tag_me/models/Insta.dart';
+import 'package:tag_me/repositories/SharedPreferencesHelper.dart';
+import 'package:tag_me/service_locator/ServiceLocator.dart';
 
 class HashtagRepository {
   static const String INSTAGRAM_SEARCH_URL =
@@ -30,6 +33,9 @@ class HashtagRepository {
     }
   }
 
+//  Future<Map<DateTime, List<HashtagItem>>> get favouriteHashtags =>
+//      Future.value(_favouriteHashtags);
+
   Future<Map<DateTime, List<HashtagItem>>> get favouriteHashtags =>
-      Future.value(_favouriteHashtags);
+      sl.get<SharedPreferencesHelper>().getSavedHashtags();
 }

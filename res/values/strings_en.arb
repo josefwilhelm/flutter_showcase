@@ -16,7 +16,8 @@
 
 
   "categoriesTitle": "Categories",
-  "@apptitle": {
-    "description": "boiii"
-  }
+
+  "global_share": "Share",
+
+  "global_copy": "Copy"
 }
