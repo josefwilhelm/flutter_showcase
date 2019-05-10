@@ -5,17 +5,19 @@ import 'package:tag_me/components/HashtagContainer.dart';
 class HashtagBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-          child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: <Widget>[
-          BottomSheetHeader(),
-          SizedBox(height: 8.0),
-          HashtagContainer()
-        ],
-      )),
-    );
+    return
+      Scaffold(
+        body: Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            BottomSheetHeader(),
+            SizedBox(height: 8.0),
+            Expanded(child: SingleChildScrollView(child: HashtagContainer())),
+            BottomSheetButtonContainer(),
+          ],
+        ),
+      );
   }
 }
 

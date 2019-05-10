@@ -14,33 +14,11 @@ import 'package:tag_me/service_locator/ServiceLocator.dart';
 class HashtagContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        BottomSheetHashtagContainer(),
-        BottomSheetButtonContainer(),
-      ],
-    );
+    return BottomSheetHashtagContainer();
   }
 }
 
-class BottomSheetButtonContainer extends StatefulWidget {
-  @override
-  _BottomSheetButtonContainerState createState() =>
-      _BottomSheetButtonContainerState();
-}
-
-class _BottomSheetButtonContainerState extends State<BottomSheetButtonContainer>
-    with SingleTickerProviderStateMixin {
-  Animation<double> animation;
-  AnimationController controller;
-
-  void initState() {
-    super.initState();
-    controller =
-        AnimationController(duration: const Duration(seconds: 2), vsync: this);
-    animation = Tween<double>(begin: 0, end: 10).animate(controller);
-  }
-
+class BottomSheetButtonContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -54,20 +32,20 @@ class _BottomSheetButtonContainerState extends State<BottomSheetButtonContainer>
               iconData: FontAwesomeIcons.shareAlt,
               onPress: _shareHashtags,
               text: S.of(context).global_share),
-          Container(
-            height: 40.0 + animation.value,
-            child: RoundedActionButton(
-              iconData: FontAwesomeIcons.heart,
-              onPress: () => _saveHashtags(context),
-              text: "Save",
-            ),
-          ),
+//          Container(
+//            height: 40.0 + animation.value,
+//            child: RoundedActionButton(
+//              iconData: FontAwesomeIcons.heart,
+//              onPress: () => _saveHashtags(context),
+//              text: "Save",
+//            ),
+//          ),
         ]);
   }
 
   void _copyToClipboard(BuildContext context) {
     Clipboard.setData(new ClipboardData(text: "Test if copy works"));
-//    Navigator.pop(_context); // hiding bottom sheet
+//    Navigator.pop(context); // hiding bottom sheet
 
     Scaffold.of(context).showSnackBar(SnackBar(
       content: Text('Hashtags successfully copied :)'),
@@ -84,32 +62,8 @@ class _BottomSheetButtonContainerState extends State<BottomSheetButtonContainer>
     sl
         .get<SharedPreferencesHelper>()
         .setSavedHashtags(_hashtagBloc.selectedHashtags.values.toList());
-
-
-    controller.forward();
   }
 }
-
-class AnimatedLogo extends AnimatedWidget {
-  AnimatedLogo({Key key, Animation<double> animation})
-      : super(key: key, listenable: animation);
-
-  Widget build(BuildContext context) {
-    final Animation<double> animation = listenable;
-    return Center(
-      child: Container(
-        margin: EdgeInsets.symmetric(vertical: 10),
-        decoration: BoxDecoration(border: Border.all()),
-        height: animation.value,
-        width: animation.value,
-        child: Icon(
-          Icons.ac_unit
-        ),
-      ),
-    );
-  }
-}
-
 class BottomSheetHashtagContainer extends StatelessWidget {
   const BottomSheetHashtagContainer({Key key}) : super(key: key);
 
@@ -120,13 +74,16 @@ class BottomSheetHashtagContainer extends StatelessWidget {
         stream: _hashtagBloc.outSelected,
         builder: (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
           if (snapshot.hasData) {
-            return Card(
-              child: Wrap(
-                  spacing: 4.0,
-                  alignment: WrapAlignment.center,
-                  children: snapshot.data
-                      .map((hashtag) => HashtagChip(hashtag))
-                      .toList()),
+            return Container(
+              width: double.infinity,
+              child: Card(
+                child: Wrap(
+                    spacing: 4.0,
+                    alignment: WrapAlignment.center,
+                    children: snapshot.data
+                        .map((hashtag) => HashtagChip(hashtag))
+                        .toList()),
+              ),
             );
           } else {
             return Container(

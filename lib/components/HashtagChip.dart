@@ -27,6 +27,7 @@ class HashtagChip extends StatelessWidget {
       selectedColor: Theme.of(context).primaryColor,
       disabledColor: Colors.white,
       backgroundColor: Colors.white,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4.0)),
       elevation: 2.0,
       selected: _hashtagItem.selected,
       onSelected: (bool selected) {

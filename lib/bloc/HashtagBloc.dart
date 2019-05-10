@@ -91,6 +91,7 @@ class HashtagBloc extends Bloc {
   }
 
   getHashtagsforPictureLabel(String label) {
+    _pictureHashtags.clear();
     _hashtagRepository.getHashtagsFor(label).asStream().listen((data) {
       data.hashtags.forEach((item) {
         _pictureHashtags[item.hashtag.name] = HashtagItem(
@@ -154,10 +155,11 @@ class HashtagBloc extends Bloc {
           : null);
     }
 
-    _hashtagsfromCategories[currentCategory][item.name] = item;
-    _hashtagCategoriesController
-        .add(_hashtagsfromCategories[currentCategory].values.toList());
-
+    if (currentCategory.isNotEmpty) {
+      _hashtagsfromCategories[currentCategory][item.name] = item;
+      _hashtagCategoriesController
+          .add(_hashtagsfromCategories[currentCategory].values.toList());
+    }
     _updateList();
   }
 

@@ -68,7 +68,7 @@ class HashtagHashtag {
 
   factory HashtagHashtag.fromJson(Map<String, dynamic> json) =>
       new HashtagHashtag(
-        name: json["name"],
+        name: "#" + json["name"],
         id: json["id"].toDouble(),
         mediaCount: json["media_count"],
         searchResultSubtitle: json["search_result_subtitle"],

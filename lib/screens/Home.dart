@@ -1,31 +1,28 @@
 import 'dart:io';
 
-import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tag_me/bloc/BlocProvider.dart';
 import 'package:tag_me/bloc/HashtagBloc.dart';
-import 'package:tag_me/components/HashtagChip.dart';
+import 'package:tag_me/components/CategoryDetailCard.dart';
 import 'package:tag_me/models/HashtagItem.dart';
 import 'package:tflite/tflite.dart';
 
 class Home extends StatefulWidget {
   Home({Key key}) : super(key: key);
+
   @override
   _HomeState createState() => _HomeState();
 }
 
 class _HomeState extends State<Home> {
   File _image;
-  List<Label> _labels;
   HashtagBloc _hashtagBloc;
-
-  List<String> _recognitions = List();
 
   @override
   void initState() {
-//    _iniatiliseTFModel();
+    _iniatiliseTFModel();
   }
 
   @override
@@ -48,9 +45,7 @@ class _HomeState extends State<Home> {
                       builder:
                           (context, AsyncSnapshot<List<HashtagItem>> snapshot) {
                         if (snapshot.hasData) {
-                          return Container(
-                              child:
-                                  _buildChips(snapshot.data, 1, _hashtagBloc));
+                          return HashtagChipCard(snapshot.data);
                         } else {
                           return Container(
                               height: 100.0,
@@ -76,26 +71,9 @@ class _HomeState extends State<Home> {
     var image = await ImagePicker.pickImage(source: ImageSource.gallery);
 
     _image = image;
+    setState(() {});
 
     _label();
-
-//    setState(() {});
-//
-//    _labelImage();
-  }
-
-  Future _labelImage() async {
-    var firebaseVisionImage = FirebaseVisionImage.fromFile(_image);
-    final LabelDetector labelDetector = FirebaseVision.instance.labelDetector();
-//
-//    final FaceDetector faceDetector = FirebaseVision.instance.faceDetector();
-//
-//    final List<Face> faces = await faceDetector.processImage(firebaseVisionImage);
-    _labels =
-        await labelDetector.detectInImage(firebaseVisionImage).then((labels) {
-      _hashtagBloc.getHashtagsforPictureLabel(labels[0].label);
-      setState(() {});
-    });
   }
 
   Widget _buildHashtagHeader(BuildContext context) {
@@ -143,26 +121,9 @@ class _HomeState extends State<Home> {
 
     print(recognitions);
 
-    recognitions.forEach((re) {
-      _recognitions.add(re["label"]);
-    });
-
-    setState(() {
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          // return object of type Dialog
-          return AlertDialog(
-            title: new Text("Alert Dialog title"),
-            content: ListView.builder(
-                itemCount: _recognitions.length,
-                itemBuilder: (BuildContext ctxt, int index) {
-                  return new Text(_recognitions[index]);
-                }),
-          );
-        },
-      );
-    });
+    if (recognitions.isNotEmpty) {
+      _hashtagBloc.getHashtagsforPictureLabel(recognitions[0]['label']);
+    }
   }
 
   Widget buildImageCard(BuildContext context) {
@@ -194,17 +155,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  Widget _buildChips(
-      List<HashtagItem> hashtags, int i, HashtagBloc hashtagBloc) {
-    List<Widget> _hashtagChips = List();
-
-    hashtags.forEach((hashtag) {
-      _hashtagChips.add(HashtagChip(hashtag));
-    });
-
-    return Wrap(
-        spacing: 4.0, alignment: WrapAlignment.center, children: _hashtagChips);
   }
 }
