@@ -40,11 +40,11 @@ class _BottomNavigationWidgetState extends State<BottomNavigationWidget> {
           initialSelection: _currentIndex,
           tabs: [
             TabData(
-              iconData: MyFlutterApp.camera_20,
+              iconData: FontAwesomeIcons.cameraRetro,
               title: "Home",
             ),
             TabData(
-                iconData: MyFlutterApp.bear,
+                iconData: MyFlutterApp.layers_3,
                 title: S
                     .of(context)
                     .categoriesTitle),

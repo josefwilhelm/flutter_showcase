@@ -19,7 +19,16 @@ class _HashtagSearchState extends State<HashtagSearch> {
   Predictions predictions;
   HashtagBloc _hashtagBloc;
 
-  void initState() {
+  bool delay = false;
+
+  @override
+  initState() {
+    Future.delayed(const Duration(milliseconds: 500), () {
+      setState(() {
+        delay = true;
+      });
+    });
+
     super.initState();
   }
 
@@ -27,23 +36,37 @@ class _HashtagSearchState extends State<HashtagSearch> {
   Widget build(BuildContext context) {
     _hashtagBloc = BlocProvider.of(context);
 
-    return Scaffold(
-        body: Column(mainAxisAlignment: MainAxisAlignment.start, children: <
+    return
+      Column(mainAxisAlignment: MainAxisAlignment.start, children: <
             Widget>[
-          TextField(
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextField(
+            autofocus: true,
             onChanged: (text) {
               _searchTerm = text;
             },
           ),
-          RaisedButton(
-            child: Text("find Hashtag"),
-            onPressed: () =>
-                _hashtagBloc.getHashtagsforPictureLabel(_searchTerm),
+        ),
+        RaisedButton.icon(
+            color: Theme
+                .of(context)
+                .primaryColor,
+            icon: Icon(Icons.search, color: Colors.white,),
+            label: Text("find Hashtag", style: Theme
+                .of(context)
+                .textTheme
+                .button
+                .copyWith(color: Colors.white),),
+            onPressed: () {
+              FocusScope.of(context).requestFocus(new FocusNode());
+              _hashtagBloc.getHashtagsforPictureLabel(_searchTerm);
+            }
           ),
           SizedBox(height: 12.0),
           Expanded(
             child: SingleChildScrollView(
-              child: StreamBuilder(
+              child: delay == false ? Container() : StreamBuilder(
                   stream: _hashtagBloc.outPictureHashtag,
                   builder: (context,
                       AsyncSnapshot<List<HashtagItem>> snapshot) {
@@ -57,7 +80,7 @@ class _HashtagSearchState extends State<HashtagSearch> {
                   }),
             ),
           ),
-        ]));
+      ]);
   }
 
 

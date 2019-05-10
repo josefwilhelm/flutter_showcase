@@ -12,7 +12,9 @@ class AppbarHashtagCountActionWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HashtagBloc _hashtagBloc = BlocProvider.of(context);
-    return Row(
+    return InkWell(
+        onTap: () => _showBottomsheet(_buildContext),
+        child: Row(
       children: <Widget>[
         StreamBuilder(
             stream: _hashtagBloc.outTotalFavorites,
@@ -30,18 +32,15 @@ class AppbarHashtagCountActionWidget extends StatelessWidget {
                 return Container();
               }
             }),
-        InkWell(
-          onTap: () => _showBottomsheet(_buildContext),
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Icon(
-              FontAwesomeIcons.hashtag,
-              color: Colors.white,
-            ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Icon(
+            FontAwesomeIcons.hashtag,
+            color: Colors.white,
           ),
         )
       ],
-    );
+        ));
   }
 
   _showBottomsheet(BuildContext context) {
