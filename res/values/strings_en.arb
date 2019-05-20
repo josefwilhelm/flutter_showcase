@@ -1,0 +1,23 @@
+{
+  /*
+  Some strings may contain $variable tokens witch are replaced with your value. For example:
+
+  "aboutListTileTitle": "About $applicationName"
+
+  The value for this resource ID is retrieved with a parametrized method instead of a simple getter:
+
+  S.of(context).aboutListTileTitle(yourAppTitle)
+  */
+
+  "appTitle": "Tag Me",
+  "@appTitle": {
+    "description": "The tooltip for the button that shows a popup menu."
+  },
+
+
+  "categoriesTitle": "Categories",
+
+  "global_share": "Share",
+
+  "global_copy": "Copy"
+}
